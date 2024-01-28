@@ -6,11 +6,11 @@ from dotenv import load_dotenv
 from openai import OpenAI
 
 
-def create_image(prompt_, number_of_images=1, boolReal=False):   
+def create_image(prompt_, number_of_images=1, boolReal=False):
+    main_dir = os.getenv("MAIN_DIR")
     if boolReal:
         load_dotenv()
         client = OpenAI(api_key=os.getenv("OPENAI_KEY"))  # Replace YOUR_API_KEY with your OpenAI API key
-        main_dir = os.getenv("MAIN_DIR")
         random_code = str(uuid.uuid4())
         # Call the API
         response = client.images.generate(
@@ -42,7 +42,7 @@ def create_image(prompt_, number_of_images=1, boolReal=False):
 
     else:
         path_to_image = (
-            "C:/Users/lucad/OneDrive/Desktop/HistorySwap/generated_image.jpg"
+            f"{main_dir}/generated_image_example.jpg"
         )
         return "ok", path_to_image
 

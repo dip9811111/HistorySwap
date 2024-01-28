@@ -1,28 +1,14 @@
 import os
-import telegram
-
 from dotenv import load_dotenv
 
-from requests import *
 
-from support.CallGPT import UseGPT
-from support.GenerateImage import create_image
-from support.fact_of_the_day import find_facts
-
-from telegram import *
-from telegram.ext import *
 from telegram.ext import (
-    Updater,
     CommandHandler,
     MessageHandler,
     ConversationHandler,
     filters,
 )
 from telegram.ext import Application
-
-from telegram import ReplyKeyboardRemove
-
-from colorama import Fore, Style
 from support.handleChat import (
     startCommand,
     handle_Home,
@@ -38,7 +24,6 @@ from support.handleChat import (
     handle_InserManualGPTPrompt
 )
 from general.predefined_strings import (
-    START_NEW,
     HOME,
     CHOOSE_EVENT,
     CHOOSE_CHARACTER,
