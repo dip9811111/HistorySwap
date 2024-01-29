@@ -30,13 +30,17 @@ def UseGPT(prompt_, type_prompt, boolReal=False):
             # print(formatted_date)
             # answer = f"{formatted_date}\n\n{answer}"
 
-        return answer
     else:
         # current_date = datetime.now()
         # formatted_date = current_date.strftime("%B %d, %Y")
+        load_dotenv()
+        main_dir = os.getenv("MAIN_DIR")
         if type_prompt == "Prompt_for_image":
-            answer = """Generate an image depicting Vegeta from DragonBall declaring "Total War" against the Allies in a dramatic and intense setting. Capture the essence of Vegeta's character as he takes on a leadership role similar to Adolf Hitler, showcasing his determination and power in the midst of the conflict. Ensure the visual elements convey the intensity of this alternate scenario, blending Vegeta's iconic traits with the historical context of a total war declaration against the Allies."""
+            with open(f"{main_dir}/Examples/PromptForImage.txt", 'r') as file:
+                answer = file.read()
         elif type_prompt == "Prompt_for_instagram":
-            answer = """This is the caption of instagram"""
-        # answer = f"{formatted_date}\n\n{answer}"
-        return answer
+            with open(f"{main_dir}/Examples/InstagramCaption.txt", 'r',
+                      encoding='utf-8') as file:
+                answer = file.read()
+
+    return answer

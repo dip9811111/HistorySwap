@@ -40,6 +40,10 @@ from general.predefined_strings import (
 load_dotenv()
 myToken = os.getenv("TELEGRAM_TOKEN")
 
+main_dir = os.getenv("MAIN_DIR")
+
+print(f"{main_dir}/ciao")
+
 application = Application.builder().token(myToken).build()
 
 # Define the conversation handler

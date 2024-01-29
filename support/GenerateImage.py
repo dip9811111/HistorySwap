@@ -7,9 +7,13 @@ from openai import OpenAI
 
 
 def create_image(prompt_, number_of_images=1, boolReal=False):
+    load_dotenv()
     main_dir = os.getenv("MAIN_DIR")
+    path_to_images = []
+    image_urls = []
+
     if boolReal:
-        load_dotenv()
+        
         client = OpenAI(api_key=os.getenv("OPENAI_KEY"))  # Replace YOUR_API_KEY with your OpenAI API key
         random_code = str(uuid.uuid4())
         # Call the API
@@ -21,30 +25,27 @@ def create_image(prompt_, number_of_images=1, boolReal=False):
             n=number_of_images,
         )
 
-        path_to_images = []
-        image_urls = []
-
-        os.makedirs(f"{main_dir}/{random_code}")
+        os.makedirs(f"{main_dir}/GeneratedImages/{random_code}")
 
         for i in range(0, number_of_images):
             webbrowser.open(response.data[i].url)
             image_url = response.data[i].url
             image_data = requests.get(image_url).content
             path_to_image = (
-                f"{main_dir}/{random_code}/{i}_generated_image.jpg"
+                f"{main_dir}/GeneratedImages/{random_code}/{i}_generated_image.jpg"
             )
             path_to_images.append(path_to_image)
             image_urls.append(image_url)
             with open(path_to_image, "wb") as f:
                 f.write(image_data)
 
-        return image_urls, path_to_images
-
     else:
-        path_to_image = (
-            f"{main_dir}/generated_image_example.jpg"
-        )
-        return "ok", path_to_image
+        image_urls = []
+        example_images = os.listdir(f"{main_dir}/Examples/Images")
+        for exemple_im in example_images:
+            path_to_images.append(f"{main_dir}/Examples/Images/{exemple_im}")
+
+    return image_urls, path_to_images
 
 
 # create_image("A cat riding a car on the moon", 3, True)

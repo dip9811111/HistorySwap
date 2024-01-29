@@ -156,7 +156,7 @@ async def handle_ConfirmFirstPrompt(update: Update, context: CallbackContext) ->
     if message_text == "YES" or context.user_data["responses"].modified_prompt:
         if not context.user_data["responses"].modified_prompt:
             prompt_ = context.user_data["responses"].prompt
-            DALLE_prompt = UseGPT(prompt_, type_prompt="Prompt_for_image")
+            DALLE_prompt = UseGPT(prompt_, type_prompt="Prompt_for_image", boolReal=False)
             context.user_data["responses"].DALLE_prompt = DALLE_prompt
         else:
             DALLE_prompt = context.user_data["responses"].DALLE_prompt
@@ -320,7 +320,7 @@ async def handle_GenerateImage(update: Update, context: CallbackContext) -> None
     if message_text == "YES":
         DALLE_prompt = context.user_data["responses"].DALLE_prompt
         n_images = context.user_data["responses"].number_of_images
-        url_images, path_images = create_image(DALLE_prompt, n_images)
+        url_images, path_images = create_image(DALLE_prompt, n_images, boolReal=False)
         context.user_data["responses"].image_urls = url_images
         context.user_data["responses"].image_paths = path_images
 
@@ -396,7 +396,8 @@ async def handle_GenerateCaption(update: Update, context: CallbackContext) -> No
 For an instagram page talking about historical events of the day, showing AI generated images.
 """
         instagram_caption = UseGPT(
-            prompt_for_caption, type_prompt="Prompt_for_instagram"
+            prompt_for_caption, type_prompt="Prompt_for_instagram",
+            boolReal=False
         )
         current_date = datetime.now()
         formatted_date = current_date.strftime("%B %d")
