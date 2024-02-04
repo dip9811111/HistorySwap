@@ -4,7 +4,7 @@ import re
 
 
 def find_facts():
-    url = "https://www.onthisday.com/"
+    url = "https://www.onthisday.com/"  # "https://www.onthisday.com/"
     response = requests.get(url)
 
     list_of_fact = []

@@ -39,10 +39,8 @@ from general.predefined_strings import (
 
 load_dotenv()
 myToken = os.getenv("TELEGRAM_TOKEN")
-
 main_dir = os.getenv("MAIN_DIR")
 
-print(f"{main_dir}/ciao")
 
 application = Application.builder().token(myToken).build()
 
@@ -51,7 +49,8 @@ conversation_handler = ConversationHandler(
     # entry_points=[COMMANDHandler('start', startCOMMAND)],
     entry_points=[
         CommandHandler("start", startCommand),
-        # MessageHandler(filters.text & ~filters.COMMAND, startCOMMAND),  # Handle past users with any text
+        # MessageHandler(filters.text & ~filters.COMMAND, startCOMMAND),
+        # Handle past users with any text
     ],
     states={
         HOME: [MessageHandler(filters.TEXT & ~filters.COMMAND,

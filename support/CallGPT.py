@@ -1,10 +1,11 @@
 import os
 import openai
 import re
+from datetime import datetime
 from dotenv import load_dotenv
 
 
-def UseGPT(prompt_, type_prompt, boolReal=False):
+def UseGPT(prompt_, type_prompt, year=None, boolReal=False):
     if boolReal:
         load_dotenv()
         openai.api_key = os.getenv("OPENAI_KEY")
@@ -22,7 +23,11 @@ def UseGPT(prompt_, type_prompt, boolReal=False):
                 answer = match.group(1)
             # else:
             #     print("No PROMPT found in the string.")
-        # elif type_prompt == "Prompt_for_instagram":
+        elif type_prompt == "Prompt_for_instagram":
+            current_date = datetime.now()
+            formatted_date = current_date.strftime("%B %d")
+            formatted_date = f"{formatted_date}, {year}"
+            answer = f"{formatted_date}\n\n{answer}"
             # pass
             # current_date = datetime.now()
             # formatted_date = current_date.strftime("%B %d, %Y")

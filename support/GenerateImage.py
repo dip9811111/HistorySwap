@@ -13,8 +13,8 @@ def create_image(prompt_, number_of_images=1, boolReal=False):
     image_urls = []
 
     if boolReal:
-        
-        client = OpenAI(api_key=os.getenv("OPENAI_KEY"))  # Replace YOUR_API_KEY with your OpenAI API key
+
+        client = OpenAI(api_key=os.getenv("OPENAI_KEY"))
         random_code = str(uuid.uuid4())
         # Call the API
         response = client.images.generate(

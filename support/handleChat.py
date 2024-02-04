@@ -320,13 +320,16 @@ async def handle_GenerateImage(update: Update, context: CallbackContext) -> None
     if message_text == "YES":
         DALLE_prompt = context.user_data["responses"].DALLE_prompt
         n_images = context.user_data["responses"].number_of_images
-        url_images, path_images = create_image(DALLE_prompt, n_images, boolReal=False)
+        url_images, path_images = create_image(DALLE_prompt,
+                                               n_images,
+                                               boolReal=False)
         context.user_data["responses"].image_urls = url_images
         context.user_data["responses"].image_paths = path_images
 
         for path_image in path_images:
             with open(path_image, "rb") as photo:
-                await context.bot.send_photo(chat_id=chat_id, photo=InputFile(photo))
+                await context.bot.send_photo(chat_id=chat_id,
+                                             photo=InputFile(photo))
 
         await context.bot.send_message(
             chat_id=chat_id,
@@ -396,15 +399,15 @@ async def handle_GenerateCaption(update: Update, context: CallbackContext) -> No
 For an instagram page talking about historical events of the day, showing AI generated images.
 """
         instagram_caption = UseGPT(
-            prompt_for_caption, type_prompt="Prompt_for_instagram",
+            prompt_for_caption,
+            type_prompt="Prompt_for_instagram",
+            year=context.user_data['responses'].date,
             boolReal=False
         )
-        current_date = datetime.now()
-        formatted_date = current_date.strftime("%B %d")
-        formatted_date = f"{formatted_date}, {context.user_data['responses'].date}"
+
         await context.bot.send_message(
             chat_id=chat_id,
-            text=f"{formatted_date}\n\n{instagram_caption}",
+            text=f"{instagram_caption}",
             parse_mode=ParseMode.HTML,
         )
         await context.bot.send_message(
