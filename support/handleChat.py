@@ -1,12 +1,8 @@
-from telegram import *
 from telegram import KeyboardButton, ReplyKeyboardMarkup, Update
 from telegram.ext import CallbackContext
-from requests import *
-from telegram.ext import *
 
 
 from general.predefined_strings import (
-    START_NEW,
     HOME,
     CHOOSE_EVENT,
     CHOOSE_CHARACTER,
@@ -47,7 +43,6 @@ from support.CallGPT import UseGPT
 from support.GenerateImage import create_image
 
 from telegram import InputFile
-from datetime import datetime
 from telegram.constants import ParseMode
 
 
@@ -156,7 +151,9 @@ async def handle_ConfirmFirstPrompt(update: Update, context: CallbackContext) ->
     if message_text == "YES" or context.user_data["responses"].modified_prompt:
         if not context.user_data["responses"].modified_prompt:
             prompt_ = context.user_data["responses"].prompt
-            DALLE_prompt = UseGPT(prompt_, type_prompt="Prompt_for_image", boolReal=False)
+            DALLE_prompt = UseGPT(prompt_,
+                                  type_prompt="Prompt_for_image",
+                                  boolReal=False)
             context.user_data["responses"].DALLE_prompt = DALLE_prompt
         else:
             DALLE_prompt = context.user_data["responses"].DALLE_prompt
@@ -263,7 +260,9 @@ async def handle_InserManualGPTPrompt(update: Update, context: CallbackContext) 
         )
 
         await context.bot.send_message(
-            chat_id=chat_id, text=f"{chat_gpt_prompt}", parse_mode=ParseMode.HTML
+            chat_id=chat_id,
+            text=f"{chat_gpt_prompt}",
+            parse_mode=ParseMode.HTML
         )
 
         await context.bot.send_message(
@@ -367,18 +366,6 @@ async def handle_ModifyDALLE_prompt(update: Update, context: CallbackContext) ->
         )
         return CHOOSE_NUMBER_OF_IMAGES
 
-        # url_image, path_image = create_image(message_text)
-        # context.user_data["responses"].image_url = url_image
-        # context.user_data["responses"].image_path = path_image
-        # with open(path_image, "rb") as photo:
-        #     await context.bot.send_photo(chat_id=chat_id, photo=InputFile(photo))
-        # await context.bot.send_message(
-        #     chat_id=chat_id,
-        #     text="Do you want to generate the caption for the Instagram post?",
-        #     reply_markup=ReplyKeyboardMarkup(buttons_YES_or_NO_annulla),
-        #     parse_mode=ParseMode.HTML,
-        # )
-        # return GENERATE_CAPTION
     else:
         await context.bot.send_message(
             chat_id=chat_id,

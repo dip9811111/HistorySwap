@@ -2,37 +2,35 @@ import os
 import requests
 import uuid
 import webbrowser
-from dotenv import load_dotenv
 from openai import OpenAI
+from general.predefined_strings import OPEN_AI_KEY, MAIN_DIR
 
 
 def create_image(prompt_, number_of_images=1, boolReal=False):
-    load_dotenv()
-    main_dir = os.getenv("MAIN_DIR")
     path_to_images = []
     image_urls = []
 
     if boolReal:
 
-        client = OpenAI(api_key=os.getenv("OPENAI_KEY"))
+        client = OpenAI(api_key=OPEN_AI_KEY)
         random_code = str(uuid.uuid4())
         # Call the API
         response = client.images.generate(
-            model="dall-e-2",
+            model="dall-e-3",
             prompt=prompt_,
-            size="256x256",  # "1024x1024",
+            size="1024x1024",  # "1024x1024",
             quality="standard",
             n=number_of_images,
         )
 
-        os.makedirs(f"{main_dir}/GeneratedImages/{random_code}")
+        os.makedirs(f"{MAIN_DIR}/GeneratedImages/{random_code}")
 
         for i in range(0, number_of_images):
             webbrowser.open(response.data[i].url)
             image_url = response.data[i].url
             image_data = requests.get(image_url).content
             path_to_image = (
-                f"{main_dir}/GeneratedImages/{random_code}/{i}_generated_image.jpg"
+                f"{MAIN_DIR}/GeneratedImages/{random_code}/{i}_generated_image.jpg"
             )
             path_to_images.append(path_to_image)
             image_urls.append(image_url)
@@ -41,9 +39,9 @@ def create_image(prompt_, number_of_images=1, boolReal=False):
 
     else:
         image_urls = []
-        example_images = os.listdir(f"{main_dir}/Examples/Images")
+        example_images = os.listdir(f"{MAIN_DIR}/Examples/Images")
         for exemple_im in example_images:
-            path_to_images.append(f"{main_dir}/Examples/Images/{exemple_im}")
+            path_to_images.append(f"{MAIN_DIR}/Examples/Images/{exemple_im}")
 
     return image_urls, path_to_images
 

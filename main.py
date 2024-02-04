@@ -1,7 +1,3 @@
-import os
-from dotenv import load_dotenv
-
-
 from telegram.ext import (
     CommandHandler,
     MessageHandler,
@@ -35,14 +31,10 @@ from general.predefined_strings import (
     MODIFY_DALLE_PROMPT,
     INSERT_MANUAL_DALLE_PROMPT,
     INSERT_MANUAL_GPT_PROMPT,
+    TELEGRAM_TOKEN
 )
 
-load_dotenv()
-myToken = os.getenv("TELEGRAM_TOKEN")
-main_dir = os.getenv("MAIN_DIR")
-
-
-application = Application.builder().token(myToken).build()
+application = Application.builder().token(TELEGRAM_TOKEN).build()
 
 # Define the conversation handler
 conversation_handler = ConversationHandler(

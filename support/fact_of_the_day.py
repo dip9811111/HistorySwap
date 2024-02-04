@@ -31,7 +31,6 @@ def find_facts():
                 text = re.sub(r"\s+([,\.])", r"\1", text)
 
                 event_dict = {"date": date, "text": text}
-                list_of_fact.append(event_dict)
 
     else:
         print(f"Failed to retrieve the page. Status code: \

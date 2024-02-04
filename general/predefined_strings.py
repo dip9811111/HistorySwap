@@ -1,4 +1,7 @@
+import os
+from dotenv import load_dotenv
 from telegram import KeyboardButton
+
 
 (START_NEW, HOME, CHOOSE_EVENT, CHOOSE_CHARACTER, CHOOSE_NUMBER_OF_IMAGES,
  CONFIRM_FIRST_PROMPT, GENERATE_IMAGE, GENERATE_CAPTION, SEND_TO_INSTAGRAM,
@@ -34,10 +37,15 @@ buttons_instagram = [
     [KeyboardButton(f"{val}")] for i, val in enumerate(list_options_4)
 ]
 
-numbers_ = [i for i in range(1,9)]
+numbers_ = [i for i in range(1, 9)]
 numbers_.append(str_modify_dalle)
 numbers_.append(str_cancel_everything)
 
 buttons_number_of_images = [
     [KeyboardButton(f"{val}")] for i, val in enumerate(numbers_)
 ]
+
+load_dotenv()
+OPEN_AI_KEY = os.getenv("OPENAI_KEY")
+MAIN_DIR = os.getenv("MAIN_DIR")
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")

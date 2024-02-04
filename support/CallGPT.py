@@ -1,14 +1,12 @@
-import os
 import openai
 import re
 from datetime import datetime
-from dotenv import load_dotenv
+from general.predefined_strings import OPEN_AI_KEY, MAIN_DIR
 
 
 def UseGPT(prompt_, type_prompt, year=None, boolReal=False):
     if boolReal:
-        load_dotenv()
-        openai.api_key = os.getenv("OPENAI_KEY")
+        openai.api_key = OPEN_AI_KEY
 
         message = [{"role": "system", "content": prompt_}]
         response = openai.chat.completions.create(
@@ -21,30 +19,19 @@ def UseGPT(prompt_, type_prompt, year=None, boolReal=False):
             match = re.search(r"PROMPT: (.+)", answer)
             if match:
                 answer = match.group(1)
-            # else:
-            #     print("No PROMPT found in the string.")
+
         elif type_prompt == "Prompt_for_instagram":
             current_date = datetime.now()
             formatted_date = current_date.strftime("%B %d")
             formatted_date = f"{formatted_date}, {year}"
             answer = f"{formatted_date}\n\n{answer}"
-            # pass
-            # current_date = datetime.now()
-            # formatted_date = current_date.strftime("%B %d, %Y")
-
-            # print(formatted_date)
-            # answer = f"{formatted_date}\n\n{answer}"
 
     else:
-        # current_date = datetime.now()
-        # formatted_date = current_date.strftime("%B %d, %Y")
-        load_dotenv()
-        main_dir = os.getenv("MAIN_DIR")
         if type_prompt == "Prompt_for_image":
-            with open(f"{main_dir}/Examples/PromptForImage.txt", 'r') as file:
+            with open(f"{MAIN_DIR}/Examples/PromptForImage.txt", 'r') as file:
                 answer = file.read()
         elif type_prompt == "Prompt_for_instagram":
-            with open(f"{main_dir}/Examples/InstagramCaption.txt", 'r',
+            with open(f"{MAIN_DIR}/Examples/InstagramCaption.txt", 'r',
                       encoding='utf-8') as file:
                 answer = file.read()
 
